@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $name = $email = '';
-$role = 'user'; // Default role set to 'user'
+$role = 'user'; 
 $error = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
