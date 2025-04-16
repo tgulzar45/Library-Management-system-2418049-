@@ -2,7 +2,7 @@
 session_start();
 require "config.php";
 
-// Only allow logged-in users
+
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     header("Location: login.php");
     exit();
@@ -10,20 +10,20 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 
 $userId = $_SESSION['user_id'];
 
-// Handle return request internally
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['return_id'])) {
     $loanId = (int)$_POST['return_id'];
 
-    // Get book_id from loan record
+    
     $stmt = $conn->prepare("SELECT book_id FROM borrowed_books WHERE id = :id AND user_id = :user_id");
     $stmt->execute(['id' => $loanId, 'user_id' => $userId]);
     $book = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($book) {
-        // Delete loan record
+        
         $conn->prepare("DELETE FROM borrowed_books WHERE id = :id")->execute(['id' => $loanId]);
 
-        // Increase book quantity
+        
         $conn->prepare("UPDATE books SET quantity = quantity + 1 WHERE id = :book_id")
             ->execute(['book_id' => $book['book_id']]);
     }
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['return_id'])) {
     exit();
 }
 
-// Fetch books borrowed by the user
+
 $stmt = $conn->prepare("
     SELECT 
         bb.id AS loan_id,
