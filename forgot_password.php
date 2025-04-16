@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'expires_at' => $expires
         ]);
 
-        // Replace 'yourdomain.com' with your actual domain
+        
         $resetLink = "http://yourdomain.com/reset_password.php?token=$token";
         mail($email, "Reset Your Password", "Click the link to reset your password: $resetLink");
 
