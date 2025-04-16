@@ -2,13 +2,13 @@
 session_start();
 require "config.php";
 
-// Only allow admins
+
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit();
 }
 
-// Handle return action
+
 if (isset($_GET['return_id'])) {
     $returnId = (int)$_GET['return_id'];
     $stmt = $conn->prepare("UPDATE borrowed_books SET return_date = NOW() WHERE id = :id");
@@ -17,7 +17,7 @@ if (isset($_GET['return_id'])) {
     exit();
 }
 
-// Fetch loans
+
 try {
     $stmt = $conn->query("
         SELECT 
