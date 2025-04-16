@@ -2,13 +2,13 @@
 session_start();
 require "config.php";
 
-// Only allow admins
+
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit();
 }
 
-// Handle book update
+
 if (isset($_POST['update_id'])) {
     $stmt = $conn->prepare("UPDATE books SET title = :title, author = :author, isbn = :isbn, genre = :genre, quantity = :quantity WHERE id = :id");
     $stmt->execute([
@@ -23,7 +23,7 @@ if (isset($_POST['update_id'])) {
     exit();
 }
 
-// Handle new book addition
+
 if (isset($_POST['add_book'])) {
     $stmt = $conn->prepare("INSERT INTO books (title, author, isbn, genre, quantity) VALUES (:title, :author, :isbn, :genre, :quantity)");
     $stmt->execute([
@@ -37,14 +37,14 @@ if (isset($_POST['add_book'])) {
     exit();
 }
 
-// Handle book deletion
+
 if (isset($_POST['delete_id'])) {
     $bookId = $_POST['delete_id'];
 
-    // Delete from borrowed_books first
+    
     $conn->prepare("DELETE FROM borrowed_books WHERE book_id = :book_id")->execute(['book_id' => $bookId]);
 
-    // Delete the book
+    
     $stmt = $conn->prepare("DELETE FROM books WHERE id = :id");
     $stmt->execute(['id' => $bookId]);
 
@@ -52,7 +52,7 @@ if (isset($_POST['delete_id'])) {
     exit();
 }
 
-// Fetch books
+
 $stmt = $conn->query("SELECT * FROM books ORDER BY id DESC");
 $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
