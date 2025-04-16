@@ -2,11 +2,11 @@
 session_start();
 require "config.php";
 
-// Check if user is logged in
+
 $user_id = $_SESSION['user_id'] ?? null;
 $role = $_SESSION['role'] ?? null;
 
-// Handle search
+
 $searchQuery = isset($_GET['query']) ? trim($_GET['query']) : "";
 $books = [];
 
