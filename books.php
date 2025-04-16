@@ -2,7 +2,7 @@
 session_start();
 require "config.php";
 
-// Only allow access to logged-in users
+
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     header("Location: login.php");
     exit();
@@ -13,7 +13,7 @@ $selectedGenre = isset($_GET['genre']) ? trim($_GET['genre']) : '';
 $books = [];
 $genres = [];
 
-// Fetch how many books the user has already borrowed
+
 $loanStmt = $conn->prepare("SELECT COUNT(*) FROM borrowed_books WHERE user_id = :user_id AND return_date IS NULL");
 $loanStmt->execute(['user_id' => $userId]);
 $loanCount = $loanStmt->fetchColumn();
