@@ -2,13 +2,12 @@
 session_start();
 require "config.php";
 
-// Only allow admins
+
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit();
 }
 
-// Handle new user addition
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_user'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -26,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_user'])) {
     exit();
 }
 
-// Handle user deletion
+
 if (isset($_GET['delete'])) {
     $deleteId = (int)$_GET['delete'];
     $stmt = $conn->prepare("DELETE FROM users WHERE id = :id");
@@ -35,7 +34,7 @@ if (isset($_GET['delete'])) {
     exit();
 }
 
-// Handle user modification
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modify_user'])) {
     $id = $_POST['id'];
     $name = $_POST['name'];
@@ -53,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['modify_user'])) {
     exit();
 }
 
-// Fetch all users
+
 $stmt = $conn->query("SELECT * FROM users ORDER BY id DESC");
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
