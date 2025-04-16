@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Library Management System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      background: url('Londonjpg.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(74, 74, 74, 0.5);
+      z-index: 1;
+    }
+
+    .top-bar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: flex-end;
+      padding: 20px 40px;
+    }
+
+    .top-bar a {
+      text-decoration: none;
+      padding: 10px 20px;
+      margin-left: 12px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid #4A4A4A;
+      color: white;
+      background: transparent;
+    }
+
+    .login-btn:hover,
+    .register-btn:hover {
+      background-color: #4A4A4A;
+      color: white;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      background: #ffffff;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      border-radius: 20px;
+      overflow: hidden;
+      max-width: 1000px;
+      width: 90%;
+      min-height: 500px;
+      margin: auto;
+      margin-bottom: 60px;
+    }
+
+    .left {
+      flex: 1;
+      background-color: #e6f5ec;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left h1 {
+      font-size: 36px;
+      color: #225a3d;
+      margin-bottom: 15px;
+    }
+
+    .left p {
+      font-size: 16px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .left img {
+      width: 100%;
+      max-height: 250px;
+      margin-top: 20px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .right {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #f4faf7;
+    }
+
+    .right h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #225a3d;
+    }
+
+    .search-box {
+      margin-top: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search-box form {
+      display: flex;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid #4A4A4A;
+      border-radius: 8px 0 0 8px;
+      outline: none;
+      font-size: 15px;
+      color: #4A4A4A;
+    }
+
+    .search-box button {
+      padding: 10px 16px;
+      border: none;
+      background: #4A4A4A;
+      color: white;
+      font-weight: bold;
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .search-box button:hover {
+      background: #333;
+    }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 30px 20px;
+      background: #333333;
+      font-size: 15px;
+      color: white;
+    }
+
+    .footer-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .footer-slogan {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: #ccc;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .left, .right {
+        padding: 30px;
+        text-align: center;
+        align-items: center;
+      }
+
+      .top-bar {
+        justify-content: center;
+        padding: 15px;
+      }
+
+      .top-bar a {
+        font-size: 14px;
+        padding: 8px 16px;
+      }
+
+      .left img {
+        max-height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top Right Buttons -->
+<div class="top-bar">
+  <a href="login.php" class="login-btn">Login</a>
+  <a href="register.php" class="register-btn">Register</a>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+  <div class="left">
+    <h1>Library Management System</h1>
+    <p>Organize your collection, track your reads, and discover a better way to enjoy books. Your library adventure starts here!</p>
+    <img src="illustration.png" alt="Library Illustration">
+  </div>
+  <div class="right">
+    <h2>Explore Books</h2>
+    <p style="color:#555;">Search and view book details instantly.</p>
+    <div class="search-box">
+      <form action="book_details.php" method="GET">
+        <input type="text" name="query" placeholder="Enter book title..." required />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-content">
+    <p class="footer-slogan">Empowering your reading journey — one book at a time.</p>
+    <p class="footer-copy">&copy; <?= date("Y") ?> Library Management System. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
