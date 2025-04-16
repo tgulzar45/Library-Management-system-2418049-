@@ -2,11 +2,11 @@
 session_start();
 require "config.php";
 
-// Enable error reporting
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Redirect if not logged in
+
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     header("Location: login.php");
     exit();
@@ -14,7 +14,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 
 $userId = $_SESSION['user_id'];
 
-// Fetch user details
+
 $stmt = $conn->prepare("SELECT name, email FROM users WHERE id = :id");
 $stmt->execute(['id' => $userId]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
