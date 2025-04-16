@@ -1,8 +1,8 @@
 <?php
 $host = "localhost"; 
-$dbname = "Library system"; // Make sure this matches your actual database name
+$dbname = "Library system"; 
 $username = "root"; 
-$password = ""; // XAMPP default is empty, do not change unless you set a password
+$password = ""; 
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
