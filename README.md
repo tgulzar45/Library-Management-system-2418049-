@@ -41,4 +41,11 @@ A web-based Library Management System built with PHP and MySQL. It allows users 
    - On macOS: `/Applications/XAMPP/htdocs/`
 3. Open **XAMPP Control Panel** and start **Apache** and **MySQL**
 4. Open [http://localhost/phpmyadmin](http://localhost/CMM007/
-
+5. Create a new database named `library_system`
+6. Import the SQL database file (if provided):  
+   _Database → Import → Choose File → Select `library_system.sql` → Go_
+7. Open the project in your browser:  
+   [http://localhost/CMM007](http://localhost/CMM007)
+8. Ensure your `config.php` file contains the correct database credentials:
+   ```php
+   $conn = new PDO("mysql:host=localhost;dbname=library_system", "root", "");
