@@ -149,7 +149,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
 </head>
 <body>
 
-<!-- Navigation Bar -->
+
 <nav>
   <div class="nav-left">
     <div class="nav-title">Library Dashboard</div>
@@ -163,7 +163,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
   </div>
 </nav>
 
-<!-- Main Content -->
+
 <div class="container">
   <h2>Search Library</h2>
   <div class="search-bar">
@@ -174,7 +174,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
   </div>
 </div>
 
-<!-- Footer -->
+
 <footer>
   <div class="footer-content">
     <p class="footer-slogan">Empowering your reading journey — one book at a time.</p>
