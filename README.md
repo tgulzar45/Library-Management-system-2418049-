@@ -17,13 +17,13 @@ A web-based Library Management System built with PHP and MySQL. It allows users 
 - Loan records
 
 ---
-## 📸 Screenshots & Illustrations
+## Screenshots & Illustrations
 
-### 📌 System Flow
+### System Flow
 
 ![System Overview](/illustration.png)
 
-### 🎨 UI Background Inspiration
+### UI Background Inspiration
 
 ![UI Background](/Londonjpg.jpeg)
 
