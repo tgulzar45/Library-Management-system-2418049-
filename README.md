@@ -21,11 +21,11 @@ A web-based Library Management System built with PHP and MySQL. It allows users 
 
 ### 📌 System Flow
 
-![System Overview](images/illustration.png)
+![System Overview](/illustration.png)
 
 ### 🎨 UI Background Inspiration
 
-![UI Background](images/Londonjpg.jpeg)
+![UI Background](/Londonjpg.jpeg)
 
 ---
 
