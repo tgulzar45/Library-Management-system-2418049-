@@ -2,15 +2,22 @@
 session_start();
 require "config.php";
 
-// Redirect if not logged in
+// Only allow access to logged-in users
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'user') {
     header("Location: login.php");
     exit();
 }
 
+$userId = $_SESSION['user_id'];
 $selectedGenre = isset($_GET['genre']) ? trim($_GET['genre']) : '';
 $books = [];
 $genres = [];
+
+// Fetch how many books the user has already borrowed
+$loanStmt = $conn->prepare("SELECT COUNT(*) FROM borrowed_books WHERE user_id = :user_id AND return_date IS NULL");
+$loanStmt->execute(['user_id' => $userId]);
+$loanCount = $loanStmt->fetchColumn();
+$loanLimit = 3;
 
 try {
     $genreStmt = $conn->query("SELECT DISTINCT genre FROM books ORDER BY genre ASC");
@@ -60,7 +67,7 @@ try {
     nav {
       position: relative;
       z-index: 2;
-      background: #333333;
+      background: #333;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -76,7 +83,7 @@ try {
       font-size: 20px;
       font-weight: bold;
     }
-    .nav-btn {
+    .nav-btn, .nav-links a {
       background-color: #ffffff22;
       color: white;
       padding: 8px 14px;
@@ -85,20 +92,8 @@ try {
       font-weight: 500;
       transition: background 0.3s ease;
     }
-    .nav-btn:hover {
+    .nav-btn:hover, .nav-links a:hover {
       background-color: #555;
-    }
-    .nav-links a {
-      margin-left: 20px;
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      padding: 8px 16px;
-      border-radius: 6px;
-      transition: background 0.3s ease;
-    }
-    .nav-links a:hover {
-      background: #555;
     }
     .container {
       position: relative;
@@ -138,45 +133,33 @@ try {
       color: #333;
     }
     th {
-      background-color: #333333;
+      background-color: #333;
       color: white;
     }
     tr:hover {
       background: rgba(0, 0, 0, 0.03);
     }
-    .no-books {
-      text-align: center;
-      color: #c0392b;
-      font-size: 16px;
-    }
-    .back-btn {
-      display: block;
-      text-align: center;
-      margin: 30px auto 0;
-      padding: 12px 24px;
-      background: #333333;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 8px;
-      width: fit-content;
-      transition: background 0.3s ease;
-    }
-    .back-btn:hover {
-      background: #222;
-    }
     .borrow-btn {
-      background: #333333;
+      background: #333;
       color: white;
       padding: 10px 18px;
       border-radius: 0;
       text-decoration: none;
       font-weight: bold;
-      transition: background 0.3s ease;
       display: inline-block;
+      transition: background 0.3s ease;
     }
     .borrow-btn:hover {
       background: #111;
+    }
+    .disabled-btn {
+      background: #ccc;
+      color: #666;
+      padding: 10px 18px;
+      border-radius: 0;
+      font-weight: bold;
+      display: inline-block;
+      cursor: not-allowed;
     }
     .alert-success {
       text-align: center;
@@ -196,8 +179,29 @@ try {
       font-weight: bold;
       margin-bottom: 20px;
     }
+    .no-books {
+      text-align: center;
+      color: #c0392b;
+      font-size: 16px;
+    }
+    .back-btn {
+      display: block;
+      text-align: center;
+      margin: 30px auto 0;
+      padding: 12px 24px;
+      background: #333;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      width: fit-content;
+      transition: background 0.3s ease;
+    }
+    .back-btn:hover {
+      background: #222;
+    }
     footer {
-      background: #333333;
+      background: #333;
       color: white;
       text-align: center;
       padding: 20px;
@@ -257,12 +261,7 @@ try {
     <table>
       <thead>
         <tr>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Genre</th>
-          <th>ISBN</th>
-          <th>Quantity</th>
-          <th>Action</th>
+          <th>Title</th><th>Author</th><th>Genre</th><th>ISBN</th><th>Quantity</th><th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -274,10 +273,12 @@ try {
             <td><?= htmlspecialchars($book['isbn']) ?></td>
             <td><?= htmlspecialchars($book['quantity']) ?></td>
             <td>
-              <?php if ($book['quantity'] > 0): ?>
+              <?php if ($loanCount >= $loanLimit): ?>
+                <span class="disabled-btn" title="Loan limit reached">Limit Reached</span>
+              <?php elseif ($book['quantity'] > 0): ?>
                 <a href="borrow.php?id=<?= $book['id']; ?>" class="borrow-btn">Borrow</a>
               <?php else: ?>
-                <span style="color:#999;">Unavailable</span>
+                <span class="disabled-btn">Unavailable</span>
               <?php endif; ?>
             </td>
           </tr>
@@ -291,7 +292,6 @@ try {
   <a href="user_dashboard.php" class="back-btn">← Back to Dashboard</a>
 </div>
 
-<!-- Footer -->
 <footer>
   <div class="footer-content">
     <p class="footer-slogan">Empowering your reading journey — one book at a time.</p>
